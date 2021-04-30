@@ -3,18 +3,19 @@ import ReactDOM from "react-dom";
 import "./styles.css";
 
 //Logic for calculation:
+
 const expressions = {
-  "*": (a, b) => a * b,
-  "+": (a, b) => a + b,
-  "-": (a, b) => a - b,
-  "/": (a, b) => a / b
+  "*": (a: number, b: number) => a * b,
+  "+": (a: number, b: number) => a + b,
+  "-": (a: number, b: number) => a - b,
+  "/": (a: number, b: number) => a / b
 };
 
-function rpnCalculator(string) {
-  const charsArray = string.split(" ");
-  const newStack = [];
+function rpnCalculator(string: string) {
+  const charsArray: string[] = string.split(" ");
+  const newStack: number[] = [];
 
-  const solveExpression = operator => {
+  const solveExpression = (operator: string) => {
     const operation = expressions[operator];
     const { length } = newStack;
     const solution = operation(newStack[length - 2], newStack[length - 1]);
@@ -35,14 +36,14 @@ function rpnCalculator(string) {
 //UI for calculation
 function App() {
   const [inputValue, setInputValue] = useState("");
-  const [solution, setSolution] = useState("");
+  const [solution, setSolution] = useState(Number);
 
   useEffect(() => {
     if (!inputValue.trim()) return;
     setSolution(rpnCalculator(inputValue));
   }, [inputValue]);
 
-  const inputValidation = value => {
+  const inputValidation = (value: number | string) => {
     if (isNaN(parseInt(value, 10))) {
       if (value === "*" || value === "/" || value === "-" || value === "+") {
         setInputValue(value);
@@ -68,7 +69,7 @@ function App() {
         Try Example
       </button>
       <input
-        value={inputValue.toString(10)}
+        value={inputValue.toString()}
         placeholder="Enter a valid expression"
         onChange={e => inputValidation(e.target.value)}
         style={{
